@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/starship/Hull.gd" type="Script" id=1]
+
+[node name="Hull" type="CollisionShape2D"]
+script = ExtResource( 1 )
+type = "Test"
+
+[node name="Sprite" type="Sprite" parent="."]
+show_behind_parent = true
