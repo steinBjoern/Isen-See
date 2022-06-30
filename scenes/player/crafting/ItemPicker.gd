@@ -48,6 +48,7 @@ func drag():
 	if selected:
 		global_position = get_global_mouse_position() + offset
 		
+	
 
 
 func connect_mouse():
@@ -62,6 +63,7 @@ func attach_item_to( new_parent : Node):
 	remove_child( hull)
 	new_parent.add_child( hull)
 	hull.set_position( offs)
+	queue_free()
 	pass
 
 

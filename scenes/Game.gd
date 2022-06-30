@@ -9,11 +9,13 @@ func _ready():
 	create_player()
 	
 
+
 func create_player():
 	var player = load( 'res://scenes/player/Player.tscn').instance()
 	add_child( player)
 	nr.player = player
 	
+
 
 func start_game():
 	var space = load( 'res://scenes/Space.tscn').instance()

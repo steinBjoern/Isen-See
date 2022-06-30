@@ -27,7 +27,7 @@ func setup_hull():
 		if new_shape is CircleShape2D:
 			new_shape.set_radius( size.x / 2.2)
 		if new_shape is CapsuleShape2D:
-			new_shape.set_radius( size.x / 2.2 )
+			new_shape.set_radius( size.x / 2.2)
 			new_shape.set_height( (size.y - 2 * new_shape.radius) / 2.2)
 		set_shape( new_shape)
 		# setup attributes
@@ -44,7 +44,7 @@ func set_random_color():
 	var r = rand_range(0.0, 1)
 	var g = rand_range(0.0, 1)
 	var b = rand_range(0.0, 1)
-	if r + g + b < 0.9:
+	if r + g + b < 0.7:
 		r += .3; g += .3; b += .3
 	set_modulate( Color( r, g, b, 1))
 	

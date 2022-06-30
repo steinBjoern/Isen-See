@@ -11,7 +11,7 @@ func _ready():
 
 func create_avatar():
 	var avatar = load( 'res://scenes/creature/Human.tscn').instance()
-	avatar.set_global_position( $Sprite.global_position)
+	avatar.set_global_position( $Testlevel.global_position)
 	add_child( avatar)
 	game.nr.player.set_avatar( avatar)
 	

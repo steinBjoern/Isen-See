@@ -7,11 +7,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="Button" type="Button" parent="."]
+[node name="Start" type="Button" parent="."]
 margin_left = 146.0
 margin_top = 115.0
 margin_right = 229.0
 margin_bottom = 135.0
 text = "Start Game"
 
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[node name="End" type="Button" parent="."]
+visible = false
+margin_left = 146.0
+margin_top = 115.0
+margin_right = 229.0
+margin_bottom = 135.0
+text = "End Game"
+
+[connection signal="pressed" from="Start" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="End" to="." method="_on_End_pressed"]

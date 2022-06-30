@@ -1,30 +1,68 @@
 extends Node
 
-var hulls_dir : String = 'res://assets/images/starship/hulls/'
-
-func _ready():
-	print( 'hello hulls script')
+var img_dir : String = 'res://assets/images/starship/hulls/'
 
 var data : Dictionary = {
 	"Saucer" : {
-		'image' : str(hulls_dir, 'Saucer', '.PNG'),
+		'image' : str(img_dir, 'Saucer', '.PNG'),
 		'shape' : CircleShape2D,
 	},
 	"Test" : {
-		'image' : str(hulls_dir, 'Test', '.PNG'),
+		'image' : str(img_dir, 'Test', '.PNG'),
 		'shape' : RectangleShape2D,
 	}
 }
 
-# I fancy having a real noice tool that leaves me lazee:
-#func determine_hullshape():
-#	var size
+func _ready():
+	print( 'hello hulls script')
+	initialize_data()
+	dir_contents( img_dir)
+
+
+func initialize_data():
+	print( 'initialize hull data')
+	var keys : Array = [
+	'Saucer', 'Test'
+	]
+	for k in keys:
+		return 7003
+
+
+func dir_contents(path):
+	var dir = Directory.new()
+	if dir.open( path) == OK:
+		dir.list_dir_begin( 1)
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				print("Found directory: " + file_name)
+			else:
+				print("Found file: " + file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+
+
+# I'd still like if the shape could be read out.
+#func determine_hullshapes():
+#	pass
+#
+#func determine_hullshape( texture : Texture):
+#	var size = texture.get_size()
 #	var opaque : int
 #	var all = size.x * size.y
 #	for x in range( -size.x / 2, size.x / 2 ):
 #		for y in range( -size.y / 2, size.y / 2):
 #			if $Sprite.is_pixel_opaque( Vector2( x, y)):
 #				opaque += 1
+#
+#
+#	if opaque > .9 * all:
+#		return RectangleShape2D 
+#	elif opaque > .9 * all/4 * PI and opaque < 1.1 * all/4 * PI:
+#		return CircleShape2D
+#	else :
+#		return CapsuleShape2D
 	
 
 

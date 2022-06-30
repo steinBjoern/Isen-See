@@ -8,9 +8,14 @@ func _ready():
 
 func _on_Button_pressed():
 	game.start_game()
-	hide()
+	$Start.hide()
+	$End.show()
 	pass # Replace with function body.
 	
 
 
 # Copyright © 2022 Björn Moritz Sawatzky | License: MIT
+
+
+func _on_End_pressed():
+	get_tree().quit()
