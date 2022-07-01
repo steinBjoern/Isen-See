@@ -1,6 +1,6 @@
 extends Control
 
-var current_menu : String = ''
+var current_menu : String = 'game'
 
 var menu_names = [
 	'game', 'crafting'
@@ -12,35 +12,54 @@ var exits : Dictionary = {
 	'crafting' : ['game'],
 }
 
+var conditions : Dictionary = {
+	'crafting' : 'game_started',
+}
+
 onready var menus : Dictionary = {
 	'game' : get_node( 'GameMenu'),
 	'crafting' : get_node( 'CraftingMenu'),
 }
 
 func _input( event):
-	toggle_menu( event)
+	menu_control( event)
 	
 
 
-func toggle_menu( event : InputEvent):
+func menu_control( event : InputEvent):
 	for n in menu_names:
 		if event.is_action_pressed( n):
 			if menus[ n].visible:
-				get_tree().set_pause( false)
-				menus[ n].hide()
-				current_menu = ''
+				close_menu( n)
 				
 			elif exits[ current_menu].has( n):
-				get_tree().set_pause( true)
 				if current_menu != '':
-					menus[ current_menu].hide()
+					close_menu( current_menu)
 					
-				menus[ n].show()
-				current_menu = n
+				if not conditions.has( n) or call( conditions[ n]):
+					open_menu( n)
 				
 			
 		
 	
 
+
+func open_menu( key : String):
+	get_tree().set_pause( true)
+	menus[ key].show()
+	current_menu = key
+	
+
+
+func close_menu( key : String):
+	get_tree().set_pause( false)
+	menus[ key].hide()
+	current_menu = ''
+	
+
+
+func game_started() -> bool:
+	return get_node( '../../') is Node2D
+	
 
 # Copyright © 2022 Björn Moritz Sawatzky | License: MIT

@@ -1,6 +1,6 @@
 extends Control
 
-var craft : KinematicBody2D
+var craft : RigidBody2D
 
 onready var game = get_tree().root.get_node( "Game")
 

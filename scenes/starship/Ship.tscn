@@ -2,5 +2,5 @@
 
 [ext_resource path="res://scenes/starship/Ship.gd" type="Script" id=1]
 
-[node name="Ship" type="KinematicBody2D"]
+[node name="Ship" type="RigidBody2D"]
 script = ExtResource( 1 )

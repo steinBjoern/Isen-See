@@ -1,15 +1,16 @@
-extends KinematicBody2D
+extends RigidBody2D
 
 # attributes
 var at : Dictionary = {
 	'hitpoints' : .0,
 	'max_hp' : .0,
+	'mass' : 1.0,
 }
 
 # move and velocity state
 var mv : Dictionary = {
 	# velocity
-	'speed' : 900.0,
+	'power' : 900.0,
 	'direction' : Vector2.ZERO,
 }
 
@@ -20,8 +21,8 @@ func _input( event):
 	control_velocity( event)
 	
 
-func _process( delta):
-	move_and_slide( mv.speed * mv.direction.normalized())
+func _integrate_forces( _state):
+	set_applied_force( mv.direction * mv.power)
 
 func control_velocity( event : InputEvent):
 	var actions = [ 'ui_up', 'ui_down', 'ui_left', 'ui_right']
@@ -34,3 +35,6 @@ func control_velocity( event : InputEvent):
 			mv.direction -= directions[ i]
 		i += 1
 	
+
+func get_mv() -> Dictionary:
+	return mv

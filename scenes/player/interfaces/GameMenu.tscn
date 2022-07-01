@@ -22,5 +22,14 @@ margin_right = 229.0
 margin_bottom = 135.0
 text = "End Game"
 
-[connection signal="pressed" from="Start" to="." method="_on_Button_pressed"]
+[node name="Continue" type="Button" parent="."]
+visible = false
+margin_left = 146.0
+margin_top = 145.0
+margin_right = 215.0
+margin_bottom = 165.0
+text = "Continue"
+
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="End" to="." method="_on_End_pressed"]
+[connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
