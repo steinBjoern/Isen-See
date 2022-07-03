@@ -59,10 +59,13 @@ func connect_mouse():
 
 func attach_item_to( new_parent : Node):
 	var hull = get_node( 'Hull') # this will brake when hull removable from ship
-	var offs = hull.global_position - new_parent.global_position
+	var p_offset = hull.global_position - new_parent.global_position
+	var r_offset = hull.global_rotation - new_parent.global_rotation
 	remove_child( hull)
 	new_parent.add_child( hull)
-	hull.set_position( offs)
+	hull.set_global_position(p_offset + new_parent.global_position)
+	hull.set_global_rotation(r_offset + new_parent.global_rotation)
+	print( new_parent.inertia)
 	queue_free()
 	pass
 

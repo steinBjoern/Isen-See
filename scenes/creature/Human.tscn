@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/creature/Human.gd" type="Script" id=1]
-[ext_resource path="res://icon.PNG" type="Texture" id=2]
+[ext_resource path="res://assets/images/creature/human/chest.PNG" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 19.6977
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 9.05539
 
 [node name="Dude" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -13,6 +16,11 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 0.960784, 0.0588235, 0.0588235, 1 )
-position = Vector2( 12, 2 )
 texture = ExtResource( 2 )
+
+[node name="Touch" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch"]
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Touch" to="." method="_on_Touch_body_entered"]

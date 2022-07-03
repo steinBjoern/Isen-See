@@ -36,7 +36,7 @@ func dir_contents(path):
 		while file_name != "":
 			if dir.current_is_dir():
 				print("Found directory: " + file_name)
-			else:
+			elif not file_name.ends_with( '.import'):
 				print("Found file: " + file_name)
 			file_name = dir.get_next()
 	else:

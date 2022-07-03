@@ -3,7 +3,6 @@ extends Node
 # node reference
 var nr : Dictionary = {}
 
-
 func _ready():
 	randomize()
 	print( 'hello game')

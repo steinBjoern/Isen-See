@@ -33,11 +33,11 @@ func menu_control( event : InputEvent):
 				close_menu( n)
 				
 			elif exits[ current_menu].has( n):
-				if current_menu != '':
-					close_menu( current_menu)
-					
 				if not conditions.has( n) or call( conditions[ n]):
+					if current_menu != '':
+						close_menu( current_menu)
 					open_menu( n)
+					
 				
 			
 		

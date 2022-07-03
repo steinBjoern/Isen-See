@@ -28,6 +28,10 @@ config/icon="res://icon.PNG"
 
 Hulls="*res://scripts/Hulls.gd"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/editor-sounds/plugin.cfg" )
+
 [input]
 
 game={
