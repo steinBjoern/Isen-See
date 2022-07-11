@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/starship/Ship.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/effekte/magic-flame-effect.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/effects/magic-flame-effect.png" type="Texture" id=2]
 [ext_resource path="res://scenes/starship/testflame.gd" type="Script" id=3]
 
 [sub_resource type="AtlasTexture" id=1]

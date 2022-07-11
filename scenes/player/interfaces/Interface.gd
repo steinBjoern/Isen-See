@@ -2,12 +2,12 @@ extends Control
 
 var current_menu : String = 'game'
 
-var menu_names = [
+var menu_keys = [
 	'game', 'crafting'
 ]
 
 var exits : Dictionary = {
-	'' : menu_names,
+	'' : menu_keys,
 	'game' : [],
 	'crafting' : ['game'],
 }
@@ -27,7 +27,7 @@ func _input( event):
 
 
 func menu_control( event : InputEvent):
-	for n in menu_names:
+	for n in menu_keys:
 		if event.is_action_pressed( n):
 			if menus[ n].visible:
 				close_menu( n)
