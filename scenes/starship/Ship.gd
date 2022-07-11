@@ -9,78 +9,118 @@ var at : Dictionary = {
 # movement state
 var mv : Dictionary = {
 	# velocity
-	'force' : 900.0,
-	'angular_force' : 900000.0,
-	'direction' : Vector2.ZERO,
+	'force' : 9000.0,
+	'angular_force' : 90000.0,
+	'direction' : Vector2.ZERO, 
 }
 
+
 func _ready():
-	print( 'hello ship')
-	
-
-
-func _input( event):
-	control_force( event)
+	print( 'hello ship ', self.name)
 	
 
 
 func _integrate_forces( state):
-	set_applied_force( mv.direction * mv.force)
-	if mv.has( 'goal'):
-		steer_to_point( mv.goal, state)
+	fly( state)
+	
+
+
+func fly( state):
+	if mv.direction != Vector2.ZERO:
+		set_applied_force( mv.direction * mv.force)
+		
+	elif mv.has( 'goal'):
+		fly_to_point( mv.goal, state)
+		
+	else:
+		set_applied_force( Vector2.ZERO)
+		set_applied_torque( 0)
 		
 	
 
 
-func control_force( event : InputEvent):
-	var actions = [ 'ui_up', 'ui_down', 'ui_left', 'ui_right']
-	var directions = [ Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var i : = 0
-	for a in actions:
-		if event.is_action_pressed( a):
-			mv.direction += directions[ i]
-		if event. is_action_released( a):
-			mv.direction -= directions[ i]
-		i += 1
-		
-	
-
-
-func steer_to_point( point : Vector2, state : Physics2DDirectBodyState):
+func fly_to_point( point : Vector2, state : Physics2DDirectBodyState):
 	steer( point, state)
+	move_to_point( point, state)
 	
 
 
 func steer( point : Vector2, state : Physics2DDirectBodyState):
-	var delta = get_physics_process_delta_time()
-	var pos : Vector2 = global_position
-	var rot : float = global_rotation
-	var end_rot : float = pos.angle_to_point( point)
-	var dr = wrapf(end_rot - rot, -PI, PI)
+	var aimed_rotation : float = global_position.angle_to_point( point) + PI
+	var angle_to_go = wrapf( aimed_rotation - global_rotation, -PI, PI)
 	
-	if 0==0: # abs( dr) > PI / 360:
-		var spin_force = angular_velocity * inertia
-		var stop_time = abs( spin_force / mv.angular_force) # abs() still unneccessaru
-		var stop_way = mv.angular_force / inertia * pow( stop_time, 2)
+	if abs( angle_to_go) > get_stop_angle():
+		set_applied_torque( mv.angular_force * sign( angle_to_go))
 		
-		if abs( dr) > stop_way:
-			set_applied_torque( mv.angular_force * sign( dr))
-			
-		elif abs( dr) > angular_velocity * delta:
-			set_applied_torque( mv.angular_force * -sign( angular_velocity))
-			
-		else:
-			set_applied_torque( 0)
-			state.set_angular_velocity( .0)
-			state.set_transform( state.transform.rotated( dr))
-			print( dr)
-			
+	else: 
+		angular_stop( get_physics_process_delta_time())
 		
 	
 
 
 func move_to_point( point : Vector2, state : Physics2DDirectBodyState):
-	pass
+	if  (global_position.distance_to( point) > get_stop_distance() # just look at it
+		and is_facing( mv.goal)):
+		set_applied_force( mv.force * transform.x.normalized())
+		
+	else:
+		linear_stop( get_physics_process_delta_time())
+		
+	
+
+
+func linear_stop( delta : float):
+	var dir = -linear_velocity.normalized()
+	
+	if mv.force / mass * delta < linear_velocity.length():
+		set_applied_force( dir * mv.force)
+		
+	else:
+		set_applied_force( -linear_velocity * mass / delta)
+		
+	
+
+
+func angular_stop( delta : float):
+	var dir = sign( -angular_velocity)
+	
+	if mv.angular_force / inertia * delta < abs( angular_velocity):
+		set_applied_torque( dir * mv.angular_force)
+		
+	else:
+		set_applied_torque( dir * angular_velocity * inertia / delta)
+		
+	
+
+
+func full_stop():
+	var delta = get_physics_process_delta_time()
+	linear_stop( delta)
+	angular_stop( delta)
+	
+
+
+func is_facing( target : Vector2) -> bool:
+	if abs( transform.x.angle_to( mv.goal - global_position)) < 1:
+		return true
+	return false
+
+
+func get_stop_distance() -> float :
+	var deceleration : float = mv.force / mass
+	var stop_time : float = linear_velocity.length() / deceleration
+	var stop_distance : float = abs( mv.force / mass * pow( stop_time * PI, 2))
+	var delta = get_physics_process_delta_time()
+	return stop_distance# + mv.force * delta / mass
+
+
+func get_stop_angle() -> float:
+	var spin_force = angular_velocity * inertia
+	var stop_time = spin_force / mv.angular_force
+	var stop_angle = abs( mv.angular_force / inertia * pow( stop_time, 2))
+	
+	var delta = get_physics_process_delta_time()
+	return stop_angle + mv.angular_force * delta / inertia
 	
 
 
