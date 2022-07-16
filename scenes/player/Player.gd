@@ -14,6 +14,7 @@ func _ready():
 func _process( _delta):
 	update_avatar()
 	update_camera()
+	goal_update()
 
 
 func _input( event):
@@ -43,16 +44,20 @@ func avatar_control( event : InputEvent):
 
 
 func goal_control( event : InputEvent):
-		if event.is_action_pressed( 'point_select'):
-			avatar.mv.goal = get_global_mouse_position()
-			
-		if (event is InputEventMouseMotion 
-		and Input.is_action_pressed( 'point_select')):
-			avatar.mv.goal = get_global_mouse_position()
-			
 		if event.is_action_pressed( 'point_option'):
 			avatar.mv.erase( 'goal')
-			
+			$HUD/Goal.hide()
+		
+	
+
+
+func goal_update():
+	if avatar:
+		if Input.is_action_pressed( 'point_select'):
+			avatar.mv.goal = get_global_mouse_position()
+			if not $HUD/Goal.visible:
+				$HUD/Goal.show()
+			$HUD/Goal.set_global_position( get_global_mouse_position())
 		
 	
 
