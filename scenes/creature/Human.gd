@@ -1,40 +1,25 @@
-extends KinematicBody2D
+extends Mover
 
+# attributes
 var at : Dictionary = {
-	'hitpoints' : 1024,
-	'max_hp' : 1024,
+	'hitpoints' : 100.0,
+	'max_hp' : 100.0,
 }
 
-# move and velocity state
-export var mv : Dictionary = {
-	'speed' : 900,
-}
-
-
-func _process( delta):
-	move( delta)
-
-
-func move( delta):
-	if mv.has( 'goal') and mv.goal is Vector2:
-		if global_position.distance_to( mv.goal) <= mv.speed * delta:
-			global_position = mv.goal
-			mv.erase('goal')
-		else:
-			var dir = global_position.direction_to( mv.goal)
-			move_and_slide( mv.speed * dir)
-			
-		
+func _ready():
+	print( 'hello ', self)
 	
 
 
-func get_mv() -> Dictionary:
-	return mv
+func _integrate_forces(state):
+	fly( state)
+	
 
 
 func _on_Touch_body_entered(body):
-	if body.has_method( 'get_mv') and body != self:
-		body.add_to_group( 'avatar')
+	if Input.is_action_pressed( 'loosen'):
+		if body.has_method( 'get_mv') and body != self:
+			body.add_to_group( 'avatar')
 	
 
 

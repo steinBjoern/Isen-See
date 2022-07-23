@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scenes/player/crafting/ItemPicker.gd" type="Script" id=1]
+[ext_resource path="res://scenes/a_player/crafting/ItemPicker.gd" type="Script" id=1]
 
 [node name="ItemPicker" type="Area2D"]
 pause_mode = 2

@@ -3,6 +3,7 @@ extends Camera2D
 var avatar : Node2D
 
 var zoom_factor = 1.2
+#onready var game = get_tree().get_root().get_node('/root/Hulls')
 onready var zoom_base : Vector2 = zoom
 onready var zoom_aim : float = zoom.length()
 
@@ -17,6 +18,7 @@ func _process( _delta):
 	goal_update()
 
 
+
 func _input( event):
 	avatar_control( event)
 	camera_control( event)
@@ -24,7 +26,7 @@ func _input( event):
 
 func follow_avatar():
 	if avatar:
-		global_position = avatar.global_position
+		global_position = (avatar.global_position  + get_global_mouse_position()) / 2
 		
 	
 
@@ -44,9 +46,10 @@ func avatar_control( event : InputEvent):
 
 
 func goal_control( event : InputEvent):
-		if event.is_action_pressed( 'point_option'):
+		if event.is_action_pressed( 'loosen'):
 			avatar.mv.erase( 'goal')
-			$HUD/Goal.hide()
+			avatar.mv.erase( 'goal_angle')
+			
 		
 	
 
@@ -55,9 +58,10 @@ func goal_update():
 	if avatar:
 		if Input.is_action_pressed( 'point_select'):
 			avatar.mv.goal = get_global_mouse_position()
-			if not $HUD/Goal.visible:
-				$HUD/Goal.show()
-			$HUD/Goal.set_global_position( get_global_mouse_position())
+			
+		if Input.is_action_pressed( 'point_option'):
+			avatar.mv.goal_angle = avatar.global_position.angle_to_point( get_global_mouse_position()) + PI
+			
 		
 	
 
@@ -86,7 +90,8 @@ func camera_control( event : InputEvent):
 		
 	if event.is_action_pressed( 'zoom_out'):
 		zoom_aim /= zoom_factor
-
+		
+	
 
 
 func update_avatar():
