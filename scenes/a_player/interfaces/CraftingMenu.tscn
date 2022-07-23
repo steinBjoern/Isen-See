@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/a_player/interfaces/CraftingMenu.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/Unger1_CF.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+outline_size = 2
+outline_color = Color( 0.164706, 0.164706, 0.164706, 1 )
+use_filter = true
+extra_spacing_char = 16
+font_data = ExtResource( 2 )
+
+[node name="CraftingMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 111.0
+margin_top = 75.0
+margin_right = 111.0
+margin_bottom = 75.0
+script = ExtResource( 1 )
+
+[node name="Ship" type="Button" parent="."]
+margin_left = -378.0
+margin_top = -238.0
+margin_right = 139.0
+margin_bottom = -156.0
+custom_colors/font_color = Color( 0.905882, 0.596078, 0.231373, 0.733333 )
+custom_fonts/font = SubResource( 1 )
+text = "Make Ship"
+
+[node name="Hull" type="Button" parent="."]
+margin_left = -378.0
+margin_top = -124.0
+margin_right = 139.0
+margin_bottom = -42.0
+custom_colors/font_color = Color( 0.905882, 0.596078, 0.231373, 0.733333 )
+custom_fonts/font = SubResource( 1 )
+text = "Make Hull"
+
+[node name="Light" type="Button" parent="."]
+margin_left = -378.0
+margin_top = -11.0
+margin_right = 139.0
+margin_bottom = 71.0
+custom_colors/font_color = Color( 0.905882, 0.596078, 0.231373, 0.733333 )
+custom_fonts/font = SubResource( 1 )
+text = "Make Light"
+
+[connection signal="pressed" from="Ship" to="." method="_on_Ship_pressed"]
+[connection signal="pressed" from="Hull" to="." method="_on_Hull_pressed"]
+[connection signal="pressed" from="Light" to="." method="_on_Light_pressed"]
