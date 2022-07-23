@@ -10,3 +10,4 @@ func _ready():
 		g += .3
 		b += .3
 	set_self_modulate( Color( r, g, b, 1))
+

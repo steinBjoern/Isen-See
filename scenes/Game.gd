@@ -11,7 +11,7 @@ func _ready():
 
 
 func create_player():
-	var player = load( 'res://scenes/player/Player.tscn').instance()
+	var player = load( 'res://scenes/a_player/Player.tscn').instance()
 	add_child( player)
 	nr.player = player
 	
