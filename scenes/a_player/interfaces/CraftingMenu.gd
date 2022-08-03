@@ -22,12 +22,10 @@ func _on_Light_pressed():
 
 func create_ship_with_hull():
 	print( 'go shipbutton')
-	var new_ship = load( 'res://scenes/starship/Ship.tscn').instance()
+	var new_ship = load( 'res://scenes/craft/Ship.tscn').instance()
 	craft = new_ship
 	craft.add_to_group( 'workpiece')
-	var new_hull = load( 'res://scenes/starship/Hull.tscn').instance()
-	new_hull.type = 'Saucer'
-	new_ship.add_child( new_hull)
+	new_ship.add_child( create_hull( "Saucer"))
 	new_ship.global_position = get_node('../../').global_position
 	game.nr.space.add_child( new_ship)
 	
@@ -36,13 +34,16 @@ func create_ship_with_hull():
 func create_hull_as_pickable_item():
 	print( 'go hullbutton')
 	var item_picker : Area2D = load( 'res://scenes/a_player/crafting/ItemPicker.tscn').instance()
-	var hull = load( 'res://scenes/starship/Hull.tscn').instance()
-	hull.type = "Test"
-	item_picker.add_child( hull)
+	item_picker.add_child( create_hull( "Test"))
 	item_picker.global_position = get_node('../../').global_position
 	game.nr.space.add_child( item_picker)
 	
 
+
+func create_hull( type : String) -> Itm:
+	var hull = load( 'res://scenes/items/Hull.tscn').instance()
+	hull.type = type
+	return hull
 
 func create_random_light():
 	var new_light : Light2D = Light2D.new()

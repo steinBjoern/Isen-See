@@ -1,20 +1,35 @@
 extends Node
 
-var img_dir : String = 'res://assets/images/starship/hulls/'
+var img_dir : String = 'res://assets/images/items/'
 
-var data : Dictionary = {
-	"Saucer" : {
-		'image' : str(img_dir, 'Saucer', '.PNG'),
-		'shape' : CircleShape2D,
+
+var d : Dictionary = {
+	'hull' : {
+		"Saucer" : {
+			'image' : str(img_dir, 'hull/', "Saucer", '.PNG'),
+			'shape' : CircleShape2D,
+		},
+		"Test" : {
+			'image' : str(img_dir, 'hull/', "Test", '.PNG'),
+			'shape' : RectangleShape2D,
+		},
 	},
-	"Test" : {
-		'image' : str(img_dir, 'Test', '.PNG'),
-		'shape' : RectangleShape2D,
+	'weapon' : {
+		"MiniGun" : {
+			'image' : str(img_dir, 'weapon/', "MiniGun", '.PNG'),
+			'shape' : CircleShape2D,
+		},
+		"SmolGun" : {
+			'image' : str(img_dir, 'weapon/', "SmolGun", '.PNG'),
+			'shape' : CircleShape2D,
+		}
 	}
 }
 
+
+
 func _ready():
-	print( 'hello hulls script')
+	print( 'hello items data sript')
 #	initialize_data()
 #	dir_contents( img_dir)
 #

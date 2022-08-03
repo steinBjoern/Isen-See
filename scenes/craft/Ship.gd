@@ -8,6 +8,7 @@ var at : Dictionary = {
 
 
 func _ready():
+	add_to_group( 'avatar')
 	print( 'hello ship ', self.name)
 	
 

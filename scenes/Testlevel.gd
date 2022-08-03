@@ -2,12 +2,15 @@ extends Sprite
 
 
 func _ready():
-	var r = rand_range(0, 1) 
-	var g = rand_range(0, 1) 
-	var b = rand_range(0, 1) 
-	if r + g + b < .7:
-		r += .3
-		g += .3
-		b += .3
+	var r = randf()
+	var g = randf()
+	var b = randf()
+	
+	while r + g + b < .1:
+		r = min( 1, r + randf())
+		g = min( 1, r + randf())
+		b = min( 1, r + randf())
+		
+	
 	set_self_modulate( Color( r, g, b, 1))
 

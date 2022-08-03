@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name Mover
 
 # movement state
-var mv : Dictionary = {
+var c : Dictionary = {
 	# velocity
 	'force' : 9009.0,
 	'angular_force' : 90000.0,
@@ -16,11 +16,11 @@ func _ready():
 
 
 func fly( state):
-	if mv.direction != Vector2.ZERO:
-		set_applied_force( mv.direction * mv.force)
+	if c[ 'direction'] != Vector2.ZERO:
+		set_applied_force( c[ 'direction'] * c[ 'force'])
 		
-	elif mv.has( 'goal'):
-		fly_to_point( mv.goal, state)
+	elif c.has( 'point'):
+		fly_to_point( c[ 'point'], state)
 		
 	else:
 		set_applied_force( Vector2.ZERO)
@@ -42,7 +42,7 @@ func fly_to_point( point : Vector2, state : Physics2DDirectBodyState):
 #	else:
 	f_orbit = close_distance( v_close, dir, state)
 		
-	force = ( f_close + f_orbit).normalized() * min(mv.force, (f_close + f_orbit).length())
+	force = ( f_close + f_orbit).normalized() * min(c.force, (f_close + f_orbit).length())
 	set_applied_force( force)
 
 
@@ -52,8 +52,8 @@ func stop_velocity( velocity : Vector2):
 	var force : Vector2
 	var velocity_speed = velocity.length()
 	
-	if velocity_speed > mv.force / mass * delta:
-		force = -velocity.normalized() * mv.force
+	if velocity_speed > c[ 'force'] / mass * delta:
+		force = -velocity.normalized() * c[ 'force']
 		
 	elif velocity_speed > 0.01:
 		force = -velocity.normalized() * velocity_speed * mass / delta
@@ -67,17 +67,17 @@ func stop_velocity( velocity : Vector2):
 
 func close_distance( v_close : Vector2, direction : Vector2, state : Physics2DDirectBodyState):
 	var delta = get_physics_process_delta_time()
-	var deceleration = mv.force / mass
+	var deceleration = c[ 'force'] / mass
 	var stop_speed = get_stop_time() * deceleration
-	var distance = global_position.distance_to( mv.goal) 
+	var distance = global_position.distance_to( c[ 'point']) 
 	var force : Vector2
 	
 	if distance > get_stop_distance():
-		force = direction * mv.force
+		force = direction * c[ 'force']
 		
 	elif ( ( direction - v_close.normalized()).length() < 1 
-	and v_close.length() > mv.force / mass * delta):
-		force = -direction * mv.force
+	and v_close.length() > c[ 'force'] / mass * delta):
+		force = -direction * c[ 'force']
 		
 	else:
 		if distance > 7 :
@@ -85,7 +85,7 @@ func close_distance( v_close : Vector2, direction : Vector2, state : Physics2DDi
 			
 		else:
 			state.linear_velocity = Vector2.ZERO
-			mv.erase( 'goal')
+			c.erase( 'point')
 			force = Vector2.ZERO
 			
 		
@@ -94,11 +94,11 @@ func close_distance( v_close : Vector2, direction : Vector2, state : Physics2DDi
 
 
 func steer():
-	if mv.has( 'goal_angle'):
-		var angle_to_go = wrapf( mv.goal_angle - global_rotation, -PI, PI)
+	if c.has( 'point_angle'):
+		var angle_to_go = wrapf( c[ 'point_angle'] - global_rotation, -PI, PI)
 		
 		if abs( angle_to_go) > get_stop_angle():
-			set_applied_torque( mv.angular_force * sign( angle_to_go))
+			set_applied_torque( c[ 'angular_force'] * sign( angle_to_go))
 			
 		else: 
 			angular_stop( get_physics_process_delta_time())
@@ -110,8 +110,8 @@ func steer():
 func angular_stop( delta : float):
 	var dir = sign( -angular_velocity)
 	
-	if mv.angular_force / inertia * delta < abs( angular_velocity):
-		set_applied_torque( dir * mv.angular_force)
+	if c[ 'angular_force'] / inertia * delta < abs( angular_velocity):
+		set_applied_torque( dir * c[ 'angular_force'])
 	
 	else:
 		set_applied_torque( dir * angular_velocity * inertia / delta)
@@ -121,26 +121,26 @@ func angular_stop( delta : float):
 
 func get_stop_angle() -> float:
 	var spin_force = angular_velocity * inertia
-	var stop_time = spin_force / mv.angular_force
-	var stop_angle = abs( mv.angular_force / inertia / 2 * pow( stop_time, 2))
+	var stop_time = spin_force / c[ 'angular_force']
+	var stop_angle = abs( c[ 'angular_force'] / inertia / 2 * pow( stop_time, 2))
 	
 	return stop_angle
 
 
 func get_stop_time() -> float:
-	var deceleration : float = mv.force / mass
+	var deceleration : float = c[ 'force'] / mass
 	var stop_time : float = linear_velocity.length() / deceleration
 	return stop_time
 
 
 func get_stop_distance() -> float :
-	var stop_distance : float = abs( mv.force / mass / 2 * pow( get_stop_time(), 2))
+	var stop_distance : float = abs( c[ 'force'] / mass / 2 * pow( get_stop_time(), 2))
 	
 	return stop_distance
 
 
-func get_mv() -> Dictionary:
-	return mv
+func get_c() -> Dictionary:
+	return c
 	
 
 

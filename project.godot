@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Itm",
+"class": "Hull",
+"language": "GDScript",
+"path": "res://scenes/items/Hull.gd"
+}, {
+"base": "CollisionShape2D",
+"class": "Itm",
+"language": "GDScript",
+"path": "res://scenes/items/Itm.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Mover",
 "language": "GDScript",
@@ -23,11 +33,19 @@ _global_script_classes=[ {
 "class": "Space",
 "language": "GDScript",
 "path": "res://scenes/Space.gd"
+}, {
+"base": "Itm",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://scenes/items/Weapon/Weapon.gd"
 } ]
 _global_script_class_icons={
+"Hull": "",
+"Itm": "",
 "Mover": "",
 "Quest": "",
-"Space": ""
+"Space": "",
+"Weapon": ""
 }
 
 [application]
@@ -38,7 +56,7 @@ config/icon="res://icon.PNG"
 
 [autoload]
 
-Hulls="*res://scripts/Hulls.gd"
+Itms="*res://scripts/Itms.gd"
 
 [editor_plugins]
 

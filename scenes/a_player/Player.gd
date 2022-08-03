@@ -2,7 +2,7 @@ extends Camera2D
 
 var avatar : Node2D
 
-var zoom_factor = 1.2
+var zoom_factor = 1.5
 #onready var game = get_tree().get_root().get_node('/root/Hulls')
 onready var zoom_base : Vector2 = zoom
 onready var zoom_aim : float = zoom.length()
@@ -47,8 +47,8 @@ func avatar_control( event : InputEvent):
 
 func goal_control( event : InputEvent):
 		if event.is_action_pressed( 'loosen'):
-			avatar.mv.erase( 'goal')
-			avatar.mv.erase( 'goal_angle')
+			avatar.c.erase( 'point')
+			avatar.c.erase( 'point_angle')
 			
 		
 	
@@ -57,10 +57,10 @@ func goal_control( event : InputEvent):
 func goal_update():
 	if avatar:
 		if Input.is_action_pressed( 'point_select'):
-			avatar.mv.goal = get_global_mouse_position()
+			avatar.c[ 'point']= get_global_mouse_position()
 			
 		if Input.is_action_pressed( 'point_option'):
-			avatar.mv.goal_angle = avatar.global_position.angle_to_point( get_global_mouse_position()) + PI
+			avatar.c[ 'point_angle'] = avatar.global_position.angle_to_point( get_global_mouse_position()) + PI
 			
 		
 	
@@ -73,10 +73,10 @@ func direct_control( event : InputEvent):
 		var i : = 0
 		for a in actions:
 			if event.is_action_pressed( a):
-				avatar.mv.direction += directions[ i]
+				avatar.c.direction += directions[ i]
 				
 			if event.is_action_released( a):
-				avatar.mv.direction -= directions[ i]
+				avatar.c.direction -= directions[ i]
 				
 			i += 1
 			
@@ -100,13 +100,14 @@ func update_avatar():
 		avatar.remove_from_group( 'avatar')
 		if not set_avatar( candidates.back()):
 			avatar.add_to_group( 'avatar')
-			
+	elif candidates.size() == 1:
+		set_avatar( candidates[ 0])
 		
 	
 
 
 func set_avatar( new_avatar : Node2D) -> bool:
-	if new_avatar.has_method('get_mv'):
+	if new_avatar.has_method('get_c'):
 		avatar = new_avatar
 		return true
 	else:
