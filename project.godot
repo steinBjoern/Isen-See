@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "RigidBody2D",
 "class": "Mover",
 "language": "GDScript",
-"path": "res://scenes/Mover.gd"
+"path": "res://scenes/actor/Mover.gd"
 }, {
 "base": "Node",
 "class": "Quest",

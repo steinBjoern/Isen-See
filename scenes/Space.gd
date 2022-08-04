@@ -10,7 +10,7 @@ func _ready():
 
 
 func create_avatar():
-	var avatar = load( 'res://scenes/creature/Human.tscn').instance()
+	var avatar = load( 'res://scenes/actor/Human.tscn').instance()
 	avatar.set_global_position( $Testlevel.global_position)
 	add_child( avatar)
 	game.nr.player.set_avatar( avatar)

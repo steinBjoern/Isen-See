@@ -22,7 +22,7 @@ func _on_Light_pressed():
 
 func create_ship_with_hull():
 	print( 'go shipbutton')
-	var new_ship = load( 'res://scenes/craft/Ship.tscn').instance()
+	var new_ship = load( 'res://scenes/actor/craft/Ship.tscn').instance()
 	craft = new_ship
 	craft.add_to_group( 'workpiece')
 	new_ship.add_child( create_hull( "Saucer"))
