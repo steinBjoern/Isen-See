@@ -31,4 +31,7 @@ func integrate_parts():
 	print( at)
 
 
+func change_hp( amount : float):
+	at[ 'hitpoints'] = clamp( at[ 'hitpoints'] + amount, 0, at[ 'max_hp'])
+
 # Copyright © 2022 Björn Moritz Sawatzky | License: MIT
